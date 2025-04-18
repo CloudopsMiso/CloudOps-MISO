@@ -14,7 +14,7 @@ phases:
       - echo "Running tests..."
       - python ./run_tests.py 
       - echo "Building application..."
-      - zip -r app.zip src/ requirements.txt
+      - ./scripts/compress.sh
 
   post_build:
     commands:
