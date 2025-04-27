@@ -4,12 +4,12 @@
   "networkMode": "awsvpc",
   "containerDefinitions": [
     {
-      "name": "Container-app-cloudops",
+      "name": "blacklist-cloudops",
       "image": "<IMAGE1_NAME>",
       "cpu": 0,
       "portMappings": [
         {
-          "name": "container-app-cloudops-500-tcp",
+          "name": "blacklist-cloudops-8000-tcp",
           "containerPort": 8000,
           "hostPort": 8000,
           "protocol": "tcp",
