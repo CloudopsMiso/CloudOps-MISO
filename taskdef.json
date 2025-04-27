@@ -4,7 +4,7 @@
   "networkMode": "awsvpc",
   "containerDefinitions": [
     {
-      "name": "blacklist-cloudops",
+      "name": "blacklist-cloudops-noexiste",
       "image": "<IMAGE1_NAME>",
       "cpu": 0,
       "portMappings": [
