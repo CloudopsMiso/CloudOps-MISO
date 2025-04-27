@@ -1,30 +1,37 @@
 version: 0.2
 
 phases:
-  install:
-    runtime-versions:
-      python: 3.9
+  pre_build:
     commands:
-      - echo "Installing dependencies..."
-      - python -m pip install --upgrade pip
-      - pip install -r requirements.txt
-
+      - echo Logging in to Amazon ECR...
+      - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 856380561074.dkr.ecr.us-east-1.amazonaws.com
   build:
     commands:
+      - echo Build started on `date`
+      - echo Building the Docker image...          
+      - docker build -t blacklist-cloudops:latest .
+      - docker tag blacklist-cloudops:latest 856380561074.dkr.ecr.us-east-1.amazonaws.com/blacklist-cloudops:latest
       - echo "Running tests..."
       - python ./run_tests.py 
-      - echo "Building application..."
-      - ./scripts/compress.sh
-
   post_build:
     commands:
-      - echo "Build and tests completed"
-
+      - echo Build completed on `date`
+      - echo Pushing the Docker image...
+      - docker push 856380561074.dkr.ecr.us-east-1.amazonaws.com/blacklist-cloudops:latest
+      - echo Writing Image Definitions file...
+      - printf '[{"name":"blacklist-cloudops","imageUri":"856380561074.dkr.ecr.us-east-1.amazonaws.com/blacklist-cloudops:latest"}]' > imagedefinitions.json
+      - printf '{"ImageURI":"856380561074.dkr.ecr.us-east-1.amazonaws.com/blacklist-cloudops:latest"}' > imageDetail.json
+      - cat imagedefinitions.json 
 artifacts:
   files:
-    - app.zip
-  name: app-$(date +%Y-%m-%d-%H-%M-%S)
-
-cache:
-  paths:
-    - '/root/.cache/pip/**/*' 
+    - '**/*'
+    - imagedefinitions.json
+    - imageDetail.json
+  secondary-artifacts:
+    DefinitionArtifact:
+      files:
+        - appspec.yaml
+        - taskdef.json
+    ImageArtifact:
+      files:
+        - imageDetail.json
