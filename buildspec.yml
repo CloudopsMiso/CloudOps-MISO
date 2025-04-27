@@ -12,6 +12,7 @@ phases:
       - docker build -t blacklist-cloudops:latest .
       - docker tag blacklist-cloudops:latest 856380561074.dkr.ecr.us-east-1.amazonaws.com/blacklist-cloudops:latest
       - echo "Running tests..."
+      - pip install -r requirements.txt
       - python ./run_tests.py 
   post_build:
     commands:
