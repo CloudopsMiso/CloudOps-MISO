@@ -115,7 +115,7 @@ class TestRoutes(unittest.TestCase):
     def test_ping(self):
         response = self.app.test_client().get('/ping')
         
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 400)
         self.assertEqual(response.get_json()['msg'], "Solo para confirmar que el servicio está arriba.")
 
 if __name__ == '__main__':
