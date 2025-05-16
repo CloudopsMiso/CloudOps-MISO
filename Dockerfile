@@ -10,6 +10,12 @@ RUN python -m venv venv && \
 
 COPY . .
 
+COPY newrelic.ini .
+
+
+ENV NEW_RELIC_CONFIG_FILE=newrelic.ini
+
 EXPOSE 8000
 
-CMD ["venv/bin/python", "src/application.py"]
+CMD ["venv/bin/newrelic-admin", "run-program", "venv/bin/python", "src/application.py"]
+
