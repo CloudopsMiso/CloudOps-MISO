@@ -20,12 +20,11 @@ phases:
       - echo Pushing the Docker image...
       - docker push 856380561074.dkr.ecr.us-east-2.amazonaws.com/blacklist_app:latest
       - echo Writing Image Definitions file...
-      - printf '[{"name":"blacklist_app","imageUri":"856380561074.dkr.ecr.us-east-2.amazonaws.com/blacklist_app:latest"}]' > imagedefinitions.json
-      - printf '{"ImageURI":"856380561074.dkr.ecr.us-east-2.amazonaws.com/blacklist_app:latest"}' > imageDetail.json
-      - cat imagedefinitions.json 
+      - echo '[{"name":"blacklist_app","imageUri":"856380561074.dkr.ecr.us-east-2.amazonaws.com/blacklist_app:latest"}]' > imagedefinitions.json
+      - echo '{"ImageURI":"856380561074.dkr.ecr.us-east-2.amazonaws.com/blacklist_app:latest"}' > imageDetail.json
+      - cat imagedefinitions.json
 artifacts:
   files:
-    - '**/*'
     - imagedefinitions.json
     - imageDetail.json
   secondary-artifacts:
