@@ -9,7 +9,7 @@ main = Blueprint("main", __name__)
 
 @main.route("/error", methods=(['GET']))
 def trigger_error():
-    raise Exception("Este es un error simulado para New Relic")
+    raise Exception("Esta es una excepción simulada para New Relic")
 
 
 
