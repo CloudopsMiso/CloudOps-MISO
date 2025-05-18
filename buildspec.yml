@@ -13,20 +13,26 @@ phases:
       - docker tag blacklist_app:latest 856380561074.dkr.ecr.us-east-2.amazonaws.com/blacklist_app:latest
       - echo "Running tests..."
       - pip install -r requirements.txt
-      - python ./run_tests.py 
+      - python ./run_tests.py
+      - echo "Verificando archivos de despliegue..."
+      - ls -la appspec.yaml taskdef.json || echo "Advertencia: Archivos no encontrados"
   post_build:
     commands:
       - echo Build completed on `date`
       - echo Pushing the Docker image...
       - docker push 856380561074.dkr.ecr.us-east-2.amazonaws.com/blacklist_app:latest
-      - echo Writing Image Definitions file...
+      - echo "Generando archivos de definición..."
       - echo '[{"name":"blacklist_app","imageUri":"856380561074.dkr.ecr.us-east-2.amazonaws.com/blacklist_app:latest"}]' > imagedefinitions.json
       - echo '{"ImageURI":"856380561074.dkr.ecr.us-east-2.amazonaws.com/blacklist_app:latest"}' > imageDetail.json
+      - echo "Contenido de los archivos generados:"
       - cat imagedefinitions.json
+      - cat imageDetail.json
 artifacts:
   files:
     - imagedefinitions.json
     - imageDetail.json
+    - appspec.yaml
+    - taskdef.json
   secondary-artifacts:
     DefinitionArtifact:
       files:
