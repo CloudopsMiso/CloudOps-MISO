@@ -9,7 +9,7 @@ phases:
     commands:
       - echo Build started on `date`
       - echo Building the Docker image...          
-      - docker build -t blacklist_app:latest .
+      - docker build -t blacklist_app .
       - docker tag blacklist_app:latest 856380561074.dkr.ecr.us-east-2.amazonaws.com/blacklist_app:latest
       - echo "Running tests..."
       - pip install -r requirements.txt
