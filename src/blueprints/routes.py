@@ -6,6 +6,13 @@ from errors.errors import ApiError
 
 main = Blueprint("main", __name__)
 
+
+@main.route("/error", methods=(['GET']))
+def trigger_error():
+    raise Exception("Esta es una excepción simulada para New Relic")
+
+
+
 @main.route("/ping", methods=(['GET']))
 def ping():
   return {"msg": "Solo para confirmar que el servicio está arriba."}, 200
