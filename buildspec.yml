@@ -4,13 +4,13 @@ phases:
   pre_build:
     commands:
       - echo Logging in to Amazon ECR...
-      - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 856380561074.dkr.ecr.us-east-1.amazonaws.com
+      - aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 856380561074.dkr.ecr.us-east-2.amazonaws.com
   build:
     commands:
       - echo Build started on `date`
       - echo Building the Docker image...          
-      - docker build -t blacklist-cloudops:latest .
-      - docker tag blacklist-cloudops:latest 856380561074.dkr.ecr.us-east-1.amazonaws.com/blacklist-cloudops:latest
+      - docker build -t blacklist_app .
+      - docker tag blacklist_app:latest 856380561074.dkr.ecr.us-east-2.amazonaws.com/blacklist_app:latest
       - echo "Running tests..."
       - pip install -r requirements.txt
       - python ./run_tests.py 
@@ -18,20 +18,21 @@ phases:
     commands:
       - echo Build completed on `date`
       - echo Pushing the Docker image...
-      - docker push 856380561074.dkr.ecr.us-east-1.amazonaws.com/blacklist-cloudops:latest
+      - docker push 856380561074.dkr.ecr.us-east-2.amazonaws.com/blacklist_app:latest
       - echo Writing Image Definitions file...
-      - printf '[{"name":"blacklist-cloudops","imageUri":"856380561074.dkr.ecr.us-east-1.amazonaws.com/blacklist-cloudops:latest"}]' > imagedefinitions.json
-      - printf '{"ImageURI":"856380561074.dkr.ecr.us-east-1.amazonaws.com/blacklist-cloudops:latest"}' > imageDetail.json
-      - cat imagedefinitions.json 
+      - echo '[{"name":"blacklist_app","imageUri":"856380561074.dkr.ecr.us-east-2.amazonaws.com/blacklist_app:latest"}]' > imagedefinitions.json
+      - echo '{"ImageURI":"856380561074.dkr.ecr.us-east-2.amazonaws.com/blacklist_app:latest"}' > imageDetail.json
+      - cat imagedefinitions.json
 artifacts:
   files:
-    - '**/*'
     - imagedefinitions.json
     - imageDetail.json
+    - appspec.json
+    - taskdef.json
   secondary-artifacts:
     DefinitionArtifact:
       files:
-        - appspec.yaml
+        - appspec.json
         - taskdef.json
     ImageArtifact:
       files:

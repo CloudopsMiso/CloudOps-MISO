@@ -7,7 +7,7 @@
           "Properties": {
             "TaskDefinition": "<TASK_DEFINITION>",
             "LoadBalancerInfo": {
-              "ContainerName": "blacklist-cloudops",
+              "ContainerName": "blacklist_app",
               "ContainerPort": 8000
             }
           }
